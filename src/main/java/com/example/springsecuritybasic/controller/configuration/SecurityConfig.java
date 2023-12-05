@@ -11,6 +11,8 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+
+//      for denying all the request ->  http.authorizeHttpRequests((request)->request.anyRequest().denyAll()).formLogin(Customizer.withDefaults()).httpBasic(Customizer.withDefaults());
         http.authorizeHttpRequests((request)-> request.requestMatchers("/account","myBalance","/cards","/loan").authenticated()
                 .requestMatchers("/notice","/contact").permitAll()).formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults());
