@@ -12,5 +12,3 @@ spring:
         format_sql: true
   application:
     name: spring_security_basic
-server:
-  port: 9999
