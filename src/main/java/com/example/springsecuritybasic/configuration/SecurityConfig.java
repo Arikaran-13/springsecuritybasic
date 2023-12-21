@@ -44,7 +44,12 @@ public class SecurityConfig {
                  CookieCsrfTokenRepository.withHttpOnlyFalse())).addFilterAfter(new CsrfCookieFilter(),
                  BasicAuthenticationFilter.class);
 
-        http.authorizeHttpRequests((request)-> request.requestMatchers("/account","myBalance","/cards","/loan","/user").authenticated()
+        http.authorizeHttpRequests((request)-> request
+                        .requestMatchers("/account").hasAuthority("VIEWACCOUNT")
+                        .requestMatchers("myBalance").hasAnyAuthority("VIEWACCOUNT","VIEWBALANCE")
+                        .requestMatchers("/loan").hasAuthority("VIEWLOANS")
+                        .requestMatchers("/cards").hasAuthority("VIEWCARDSDetails")
+                        .requestMatchers("/user").authenticated()
                 .requestMatchers("/notices","/contact","/register").permitAll()).formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults());
         return http.build();

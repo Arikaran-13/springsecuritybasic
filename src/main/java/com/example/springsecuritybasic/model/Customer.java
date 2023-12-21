@@ -1,8 +1,11 @@
 package com.example.springsecuritybasic.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
+
+import java.util.Set;
 
 @Entity
 public class Customer {
@@ -19,6 +22,18 @@ public class Customer {
 
     @Column(name = "mobile_number")
     private String mobileNumber;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer",fetch = FetchType.EAGER)
+    private Set<Authority> authority;
+
+    public Set<Authority> getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(Set<Authority> authority) {
+        this.authority = authority;
+    }
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String pwd;

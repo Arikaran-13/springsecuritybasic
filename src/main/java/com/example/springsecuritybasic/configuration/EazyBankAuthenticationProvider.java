@@ -1,5 +1,6 @@
 package com.example.springsecuritybasic.configuration;
 
+import com.example.springsecuritybasic.model.Authority;
 import com.example.springsecuritybasic.repository.CustomerRepository;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -12,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Component
 public class EazyBankAuthenticationProvider implements AuthenticationProvider {
@@ -34,7 +37,7 @@ public class EazyBankAuthenticationProvider implements AuthenticationProvider {
             if(encoder.matches(presentedPwd,userDetails.get(0).getPwd())){
                 var authRoles = new ArrayList<GrantedAuthority>();
                 authRoles.add(new SimpleGrantedAuthority(userDetails.get(0).getRole()));
-                return new UsernamePasswordAuthenticationToken(presentedUserName,presentedPwd,authRoles);
+                return new UsernamePasswordAuthenticationToken(presentedUserName,presentedPwd,getGrantedAuthorities(userDetails.get(0).getAuthority()));
             }
             else{
                 throw new BadCredentialsException("Bad credential , Invalid password");
@@ -45,7 +48,15 @@ public class EazyBankAuthenticationProvider implements AuthenticationProvider {
         }
     }
 
-    @Override
+    public List<GrantedAuthority> getGrantedAuthorities(Set<Authority>authorities){
+        var auth = new ArrayList<GrantedAuthority>();
+        for(Authority authZ : authorities){
+            auth.add(new SimpleGrantedAuthority(authZ.getName()));
+        }
+        return auth;
+    }
+
+     @Override
     public boolean supports(Class<?> authentication) {
         return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
     }
