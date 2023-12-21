@@ -35,8 +35,6 @@ public class EazyBankAuthenticationProvider implements AuthenticationProvider {
         var userDetails = customerRepository.findByEmail(presentedUserName);
         if(userDetails.size()>0){
             if(encoder.matches(presentedPwd,userDetails.get(0).getPwd())){
-                var authRoles = new ArrayList<GrantedAuthority>();
-                authRoles.add(new SimpleGrantedAuthority(userDetails.get(0).getRole()));
                 return new UsernamePasswordAuthenticationToken(presentedUserName,presentedPwd,getGrantedAuthorities(userDetails.get(0).getAuthority()));
             }
             else{
