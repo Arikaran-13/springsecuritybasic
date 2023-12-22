@@ -12,3 +12,10 @@ spring:
         format_sql: true
   application:
     name: spring_security_basic
+logging:
+  level:
+    org:
+      springframework:
+        security:
+          web:
+            FilterChainProxy : DEBUG
