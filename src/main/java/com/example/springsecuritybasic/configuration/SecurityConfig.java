@@ -43,7 +43,7 @@ public class SecurityConfig {
                 })).csrf(csrf -> csrf.csrfTokenRequestHandler(handler).ignoringRequestMatchers("/register", "/contact")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
-                .addFilterBefore(new RequestValidateFilter(),BasicAuthenticationFilter.class) // just for testing purpose adding a custom filter before authentication filter
+              //  .addFilterBefore(new RequestValidateFilter(),BasicAuthenticationFilter.class) // just for testing purpose adding a custom filter before authentication filter
                 .addFilterAfter(new JwtGenerationFilter(),BasicAuthenticationFilter.class)
                 .addFilterBefore(new JwtValidatorFilter() , BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(

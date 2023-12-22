@@ -24,32 +24,11 @@ import java.util.logging.Logger;
 public class JwtGenerationFilter extends OncePerRequestFilter {
 
     private Logger log = LogManager.getLogManager().getLogger(JwtGenerationFilter.class.getName());
-    /**
-     * Can be overridden in subclasses for custom filtering control,
-     * returning {@code true} to avoid filtering of the given request.
-     * <p>The default implementation always returns {@code false}.
-     *
-     * @param request current HTTP request
-     * @return whether the given request should <i>not</i> be filtered
-     * @throws ServletException in case of errors
-     */
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         return !request.getServletPath().equals("/user");
     }
-
-    /**
-     * Same contract as for {@code doFilter}, but guaranteed to be
-     * just invoked once per request within a single request thread.
-     * See {@link #shouldNotFilterAsyncDispatch()} for details.
-     * <p>Provides HttpServletRequest and HttpServletResponse arguments instead of the
-     * default ServletRequest and ServletResponse ones.
-     *
-     * @param request
-     * @param response
-     * @param filterChain
-     */
-
+    
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
